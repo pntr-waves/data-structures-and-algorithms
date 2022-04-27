@@ -5,14 +5,17 @@ function Node (data) {
 
 function LinkedList () {
     this.head = null;
+    this.length = 0;
 
-    this.shift = function (node) {
+    this.unShift = function (node) {
         if (this.head == null) return;
 
         if (node != null) {
             node.next = this.head;
             this.head = node;
         } 
+
+        this.updateLength();
     }
 
     this.append = function (pre, node) {
@@ -20,6 +23,8 @@ function LinkedList () {
 
         node.next = pre.next;
         pre.next = node;
+        
+        this.updateLength();
     }
 
     this.push = function (node) {
@@ -35,6 +40,71 @@ function LinkedList () {
         }
 
         last.next = node;
+
+        this.updateLength();
+    }
+
+    this.deleteNodeByData = function (data) {
+        var node = this.head; 
+        var pre = null;
+
+        if (node != null && node.data === data) {
+            this.head = node.next;
+            return;
+        }
+
+        while (node != null && node.data !== data) {
+            pre = node;
+            node = node.next;
+        }
+
+        if (node == null) return;
+
+        pre.next = node.next;
+
+        this.updateLength();
+    }
+
+    this.updateLength = function () {
+        var node = this.head;
+        if (node == null) return;
+        
+        this.length = 0;
+        while (node != null) {
+            this.length++;
+            node = node.next;
+        }
+    }
+
+    this.findNodeByData = function (data) {
+        if (this.head === null) return;
+
+        var node = this.head;
+
+        while (node) {
+            if (node.data === data) return node;
+
+            node = node.next;
+        }
+
+        return null;
+    }
+
+    this.reverse = function () {
+        if (this.head == null) return;
+
+        var node = this.head;
+        var pre = null;
+        var next = null;
+        while (node) {
+            next = node.next;
+            node.next = pre;
+            pre = node;
+            node = next;
+        }
+
+        this.head = pre;
+
     }
 }
 
@@ -49,6 +119,12 @@ function printLinkedList (linkedList) {
         }
     }
     console.log("data", result);    
+}
+
+function printBreak (title) {
+    console.log("");
+    console.log("=============" + title +"=============");
+    console.log("");
 }
 
 
@@ -67,35 +143,59 @@ function main () {
     node1.next = node2;
     node2.next = node3;
 
+    printBreak("Create Linked List");
     console.log("init linked list:")
     printLinkedList(llist);
 
-    //shift 1 node to linked list
+    //unShift 1 node to linked list
     var newHeadNode = new Node(-1);
+    
+    llist.unShift(newHeadNode);
+    
+    printBreak("UnShift");
     console.log("new head node", "[" + newHeadNode.data + "]");
-
-    llist.shift(newHeadNode);
-
-    console.log("init linked list:")
     printLinkedList(llist);
+    console.log("Length is updated: ", llist.length);
 
     //append 1 node to linked list
     var newNode = new Node(2.5);
-    console.log("new node", "[" + newNode.data + "]");
-
+    
     llist.append(node2, newNode);
-
-    console.log("init linked list:")
+    
+    printBreak("Append");
+    console.log("new node", "[" + newNode.data + "]");
     printLinkedList(llist);
+    console.log("Length is updated: ", llist.length);
 
     //push 1 node to linked list
 
     var newLastNode = new Node(4);
-    console.log("new last node", "[" + newLastNode.data + "]");
-
+    
     llist.push(newLastNode);
+    
+    printBreak("Push");
+    console.log("new last node", "[" + newLastNode.data + "]");
+    printLinkedList(llist);
+    console.log("Length is updated: ", llist.length);
 
-    console.log("init linked list:")
+
+    //delete node;
+    printBreak("Delete Node");
+    console.log("Delete node with data = 3");
+    llist.deleteNodeByData(3);
+
+    printLinkedList(llist);
+    console.log("Length is updated: ", llist.length);
+
+    //find node with data
+    var targetNode = llist.findNodeByData(2);
+
+    printBreak("Find Node");
+    console.log("Find node with data = 2");
+    console.log("target node: ", targetNode ? "[" + targetNode.data + "]" : "[" + "]");
+
+    printBreak("Reverse LinkedList");
+    llist.reverse();
     printLinkedList(llist);
 
 }
