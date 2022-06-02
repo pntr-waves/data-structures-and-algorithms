@@ -1,63 +1,57 @@
 const _DATA = [
-    18,
-    62,
-    48,
-    11,
-    65,
-    25,
-    20,
-    91,
-    3,
-    74,
-    7,
-    38,
-    1,
-    73,
-    7,
-    92,
-    100,
-    44,
-    83,
-    4,
-    60,
-    10,
-    10,
-    26,
-    48,
-    72,
-    9,
-    90,
-    28,
-    46,
-    6,
-    97,
-    44,
-    20,
-    68,
-    77,
-    32,
-    36,
-    68,
-    86,
-    67,
-    56,
+    16,
     47,
-    45,
+    19,
+    8,
+    7,
+    72,
+    95,
+    41,
     5,
     76,
-    85,
-    20,
-    100,
-    96,
+    79,
+    34,
+    32,
+    70,
     50,
-    39,
-    30];
+    43,
+    75,
+    73,
+    74,
+    84,
+    4,
+    3,
+    85,
+    17,
+    82,
+    47,
+    73,
+    17,
+    97,
+    88,
+    95
+];
 
 
 function InsertionSort () {
-    
+    var n = _DATA.length;
+    for (i = 1; i < n; i++) {
+        var key = _DATA[i];
+        var j = i - 1;
+
+        while (j >= 0 && _DATA[j] > key) {
+            _DATA[j + 1] = _DATA[j];
+            j = j - 1;
+        }
+
+        _DATA[j + 1] = key;
+    }
 }
 
-function main () {}
+function main () {
+    console.log("Data has been 'insertion' sorted");
+    InsertionSort();
+    console.log(_DATA);
+}
 
 main();
